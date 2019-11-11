@@ -1,5 +1,6 @@
 // NPM Modules
 const inquirer = require("inquirer");
+const fs = require('fs')
 
 // Local Modules
 const render = require("./lib/htmlrenderer");
@@ -8,6 +9,43 @@ const render = require("./lib/htmlrenderer");
 const Manager = require("./lib/constructors/Manager");
 const Engineer = require("./lib/constructors/Engineer");
 const Intern = require("./lib/constructors/Intern");
+
+
+
+
+inquirer.prompt([
+    {
+        type: "input",
+        name: "username",
+        message: "What is your name?"
+    },
+    {
+        type: "input",
+        message: "What is your ID?";
+        school: "where did you graduate";
+    
+    },
+        
+        
+        
+
+    {
+        type: "role",
+        message: "what is your job position?",
+        choices: [
+            "engineer",
+            "intern",
+            "manager",
+        ]
+    },
+]).then(function (response) {
+    fs.writeFile("test.json", response, function (err) {
+        if (err) {
+            console.log(err);
+        }
+    });
+    console.log(response);
+});
 
 // Global Variables
 const teamMembers = [
