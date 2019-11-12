@@ -22,6 +22,8 @@
   },
   "homepage": "https://github.com/LLJirie/render#readme",
   "dependencies": {
+    "bulma": "^0.8.0",
     "inquirer": "^7.0.0"
-  }
+  },
+  "devDependencies": {}
 }

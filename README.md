@@ -90,6 +90,7 @@ methods:
   * name
   * id
   * title
+  
   * getName()
   * getId()
   * getEmail()
