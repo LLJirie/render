@@ -3,7 +3,7 @@ const inquirer = require("inquirer");
 const fs = require('fs')
 
 // Local Modules
-const render = require("./lib/htmlrenderer");
+const htmlRender = require("./lib/constructors/htmlrenderer");
 
 // Constructors
 const Manager = require("./lib/constructors/Manager");
@@ -18,60 +18,184 @@ const teamMembers = [
   // new Intern("Becky", 3, "becky@becky.com", "UofA"),
   // new Intern("Shelly", 4, "shelly@shelly.com", "UofA")
 ];
+function createManager() {
+  inquirer.prompt([
+    {
+      type: "input",
+      name: "name",
+      message: "What is your name?"
+    },
+    {
+      type: "input",
+      name: "id",
+      message: "What is your ID?",
 
-inquirer.prompt([
-  {
-    type: "input",
-    name: "username",
-    message: "What is your name?"
-  },
-  {
-    type: "input",
-    message: "What is your ID?";
-    school: "where did you graduate";
+    },
+    {
+      type: "input",
+      name: "email",
+      message: "what is your email address?",
 
-  },
-  {
-    type: "role",
-    message: "what is your job position?",
-    choices: [
-      "engineer",
-      "intern",
-      "manager",
-    ]
-  },
-]).then(function (data) {
+    },
+    {
+      type: "input",
+      name: "office",
+      message: "What is your office number?",
 
-  var filename = data.name.toLowerCase().split(' ').join('') + ".json";
-
-  fs.writeFile(filename, JSON.stringify(data, null, '\t'), function (err) {
-
-    if (err) {
-      return console.log(err);
     }
 
-    console.log("Success!");
+  ]).then(function (data) {
+    const manager = new Manager(data.name, data.id, data.email, data.office);
+    teamMembers.push(manager);
+    makeTeamMembers();
 
   });
-});
-// ]).then(function (response) {
-//     fs.writeFile("test.json", response, function (err) {
-//         if (err) {
-//             console.log(err);
-//         }
-//     });
-//     console.log(response);
-// });
-
-
-/***
- * THIS PROJECT IS NOT COMPLETE.
- * YOU WILL NEED TO BUILD YOUR HTML LAYOUTS
- * PROMPT THE USER FOR ALL OF THEIR DIFFERENT TEAM MEMBERS
- */
-
-async function init() {
-  render(teamMembers);
 }
 
-init();
+function makeTeamMembers() {
+  inquirer.prompt([
+    {
+      type: "list",
+      name: "member-type",
+      message: "What type of team member do you want to add?",
+      choices: [
+        "Engineer",
+        "Intern",
+        "I am done adding members"
+      ]
+    }
+  ]).then(function (answers) {
+    if (answers.member - type === "Engineer") {
+      createEngineer();
+    }
+    else if (answers.member - type === "Intern") {
+      createIntern();
+    }
+    else {
+      buildTeam();
+    }
+  })
+}
+
+function createEngineer() {
+  inquirer.prompt([
+    {
+      type: "input",
+      name: "name",
+      message: "What is your name?"
+    },
+    {
+      type: "input",
+      name: "id",
+      message: "What is your ID?",
+
+    },
+    {
+      type: "input",
+      name: "email",
+      message: "what is your email address?",
+
+    },
+    {
+      type: "input",
+      name: "office",
+      message: "What is your Github name?",
+
+    }
+
+  ]).then(function (data) {
+    const engineer = new Engineer(data.name, data.id, data.email, data.github);
+    teamMembers.push(engineer);
+    makeTeamMembers();
+
+  });
+}
+function createIntern() {
+  inquirer.prompt([
+    {
+      type: "input",
+      name: "name",
+      message: "What is your name?"
+    },
+    {
+      type: "input",
+      name: "id",
+      message: "What is your ID?",
+
+    },
+    {
+      type: "input",
+      name: "email",
+      message: "what is your email address?",
+
+    },
+    {
+      type: "input",
+      name: "office",
+      message: "What is the name of your school?",
+
+    }
+
+  ]).then(function (data) {
+    const engineer = new Engineer(data.name, data.id, data.email, data.github);
+    teamMembers.push(engineer);
+    makeTeamMembers();
+
+  });
+
+
+
+  // async function init() {
+  //   render(teamMembers);
+  // }
+
+  createManager();
+
+
+}
+
+
+// async function init() {
+//   render(teamMembers);
+// }
+
+// createManager();
+
+
+
+function makeTeamMembers() {
+  inquirer.prompt([
+    {
+      type: "list",
+      name: "member-type",
+      message: "What type of team member do you want to add?",
+      choices: [
+        "Engineer",
+        "Intern",
+        "I am done adding members"
+      ]
+    }
+  ]).then(function (answers) {
+    if (answers.member - type === "Engineer") {
+      createEngineer();
+    }
+    else if (answers.member - type === "Intern") {
+      createIntern();
+    }
+    else {
+      buildTeam();
+    }
+  })
+}
+
+
+
+
+
+// async function init() {
+//   render(teamMembers);
+// }
+
+createManager();
+createEngineer();
+createIntern();
