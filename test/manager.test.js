@@ -8,3 +8,5 @@ const Htmlrenderer = require("htmlrenderer")
 
 const Intern = require(intern);
 
+new Manager("Brent", 1, "brent@trilogyed.com", 200),
+

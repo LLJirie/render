@@ -3,7 +3,7 @@ const inquirer = require("inquirer");
 const fs = require('fs')
 
 // Local Modules
-const htmlRender = require("./lib/constructors/htmlrenderer");
+const render = require("./lib/htmlrenderer");
 
 // Constructors
 const Manager = require("./lib/constructors/Manager");
@@ -45,7 +45,7 @@ function createManager() {
     }
 
   ]).then(function (data) {
-    const manager = new Manager(data.name, data.id, data.email, data.office);
+    const manager = new Manager(data.name, parseInt(data.id), data.email, parseInt(data.office));
     teamMembers.push(manager);
     makeTeamMembers();
 
@@ -53,10 +53,11 @@ function createManager() {
 }
 
 function makeTeamMembers() {
+  console.log("make team members fired");
   inquirer.prompt([
     {
       type: "list",
-      name: "member-type",
+      name: "member",
       message: "What type of team member do you want to add?",
       choices: [
         "Engineer",
@@ -65,14 +66,14 @@ function makeTeamMembers() {
       ]
     }
   ]).then(function (answers) {
-    if (answers.member - type === "Engineer") {
+    if (answers.member === "Engineer") {
       createEngineer();
     }
-    else if (answers.member - type === "Intern") {
+    else if (answers.member === "Intern") {
       createIntern();
     }
     else {
-      buildTeam();
+      render(teamMembers);
     }
   })
 }
@@ -98,13 +99,13 @@ function createEngineer() {
     },
     {
       type: "input",
-      name: "office",
+      name: "github",
       message: "What is your Github name?",
 
     }
 
   ]).then(function (data) {
-    const engineer = new Engineer(data.name, data.id, data.email, data.github);
+    const engineer = new Engineer(data.name, parseInt(data.id), data.email, data.github);
     teamMembers.push(engineer);
     makeTeamMembers();
 
@@ -131,71 +132,22 @@ function createIntern() {
     },
     {
       type: "input",
-      name: "office",
+      name: "school",
       message: "What is the name of your school?",
 
     }
 
   ]).then(function (data) {
-    const engineer = new Engineer(data.name, data.id, data.email, data.github);
-    teamMembers.push(engineer);
+    const intern = new Intern(data.name, parseInt(data.id), data.email, data.school);
+    teamMembers.push(intern);
     makeTeamMembers();
 
   });
 
 
-
-  // async function init() {
-  //   render(teamMembers);
-  // }
-
-  createManager();
-
-
 }
 
 
-// async function init() {
-//   render(teamMembers);
-// }
-
-// createManager();
-
-
-
-function makeTeamMembers() {
-  inquirer.prompt([
-    {
-      type: "list",
-      name: "member-type",
-      message: "What type of team member do you want to add?",
-      choices: [
-        "Engineer",
-        "Intern",
-        "I am done adding members"
-      ]
-    }
-  ]).then(function (answers) {
-    if (answers.member - type === "Engineer") {
-      createEngineer();
-    }
-    else if (answers.member - type === "Intern") {
-      createIntern();
-    }
-    else {
-      buildTeam();
-    }
-  })
-}
-
-
-
-
-
-// async function init() {
-//   render(teamMembers);
-// }
 
 createManager();
-createEngineer();
-createIntern();
+
